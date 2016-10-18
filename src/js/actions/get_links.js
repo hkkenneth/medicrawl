@@ -4,7 +4,7 @@
  * @param Horseman phantomInstance
  * @param string url
  */
-module.exports = function (phantomInstance, url) {
+module.exports = function (phantomInstance, url, loadPhantomInstance) {
 
   if (!url || typeof url !== 'string') {
     throw 'You must specify a url to gather links';
@@ -27,8 +27,8 @@ module.exports = function (phantomInstance, url) {
     // Interact with the page. This code is run in the browser.
     .evaluate(function () {
       $ = window.$ || window.jQuery;
-      
-      // Return a single result object with properties for 
+
+      // Return a single result object with properties for
       // whatever intelligence you want to derive from the page
       var result = {
         links: []
@@ -38,7 +38,7 @@ module.exports = function (phantomInstance, url) {
         $('a').each(function (i, el) {
           var href = $(el).attr('href');
           if (href) {
-            if (!href.match(/^(#|javascript|mailto)/) && result.links.indexOf(href) === -1) {
+            if (!href.match(/^(#|javascript|mailto)/) && href.match(/about_crc/) && result.links.indexOf(href) === -1) {
               result.links.push(href);
             }
           }
@@ -61,6 +61,47 @@ module.exports = function (phantomInstance, url) {
     })
     .then(function (result) {
       console.log('Success! Here are the derived links: \n', result.links);
+
+      result.links.forEach( function( link ){
+        var horseman = new loadPhantomInstance();
+        horseman
+          .open('http://www.colonscreen.gov.hk' + link)
+          .evaluate(function () {
+            $ = window.$ || window.jQuery;
+
+            // Return a single result object with properties for
+            // whatever intelligence you want to derive from the page
+            var result = {
+              title: "",
+              content: []
+            };
+
+            if ($) {
+              result.title = $('h1.title').text().trim();
+              $('div.region-content p,div.region-content li').each(function (i, el) {
+                result.content.push($(el).text().trim());
+              });
+            }
+
+            return result;
+          })
+          .then(function (result) {
+            console.log('Success! The title is: \n', result.title);
+            var linkParts = link.split('/');
+            var fileName = linkParts[linkParts.length - 1].replace(".html", ".json");
+
+            var fs = require('fs');
+            fs.writeFile('json_output/' + fileName, JSON.stringify(result), function(err) {
+              if(err) {
+                return console.log(err);
+              }
+              console.log("The file was saved!");
+            });
+          })
+          .finally(function(){
+            return horseman.close();
+          });
+      });
     })
 
     .catch(function (err) {

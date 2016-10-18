@@ -114,7 +114,7 @@ var main = function () {
             return validUrl.isWebUri(value);
           }
       }], function (err, result) {
-        performAction(phantomInstance, result.url);
+        performAction(phantomInstance, result.url, loadPhantomInstance);
       });
       break;
 
