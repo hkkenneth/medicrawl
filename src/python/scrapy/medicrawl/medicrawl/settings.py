@@ -72,6 +72,16 @@ DOWNLOADER_MIDDLEWARES = {
 #ITEM_PIPELINES = {
 #    'medicrawl.pipelines.SomePipeline': 300,
 #}
+ITEM_PIPELINES = {
+    'scrapyelasticsearch.scrapyelasticsearch.ElasticSearchPipeline': 500
+}
+
+ELASTICSEARCH_SERVERS = ['localhost']
+ELASTICSEARCH_INDEX = 'medicrawl-medlineplus'
+ELASTICSEARCH_INDEX_DATE_FORMAT = ''
+ELASTICSEARCH_TYPE = 'health-topic'
+ELASTICSEARCH_UNIQ_KEY = 'uid'  # Custom uniqe key
+
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html

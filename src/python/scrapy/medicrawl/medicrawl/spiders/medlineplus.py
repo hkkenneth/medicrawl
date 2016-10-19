@@ -15,8 +15,9 @@ class MedlineplusSpider(scrapy.spiders.XMLFeedSpider):
 
     def parse_node(self, response, node):
         item = MedlinePlusItem()
-        item['uid'] = '%s-%s' % ('medline-plus',
-                                 node.xpath('@id').extract_first())
+        # https://github.com/knockrentals/scrapy-elasticsearch/issues/41
+        item['uid'] = [('%s-%s' % ('medline-plus',
+                                  node.xpath('@id').extract_first()))]
         item['title'] = node.xpath('@title').extract_first()
         item['summary'] = node.xpath('full-summary/text()').extract_first()
         item['source'] = 'MedlineplusSpider'
