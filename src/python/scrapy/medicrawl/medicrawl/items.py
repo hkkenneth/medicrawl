@@ -19,7 +19,6 @@ class NihNlmMedlineItem(scrapy.Item):
     uid = scrapy.Field()
     title = scrapy.Field()
     abstract = scrapy.Field()
-    pass
 
 
 class MedlinePlusItem(scrapy.Item):
@@ -27,4 +26,10 @@ class MedlinePlusItem(scrapy.Item):
     uid = scrapy.Field()
     title = scrapy.Field()
     summary = scrapy.Field()
-    pass
+
+
+class NHSChoicesItem(scrapy.Item):
+    source = scrapy.Field()
+    uid = scrapy.Field()
+    title = scrapy.Field()
+    content = scrapy.Field()
