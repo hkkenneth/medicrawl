@@ -77,9 +77,9 @@ ITEM_PIPELINES = {
 }
 
 ELASTICSEARCH_SERVERS = ['localhost']
-ELASTICSEARCH_INDEX = 'medicrawl-medlineplus'
+ELASTICSEARCH_INDEX = 'medicrawl-nhschoices'
 ELASTICSEARCH_INDEX_DATE_FORMAT = ''
-ELASTICSEARCH_TYPE = 'health-topic'
+ELASTICSEARCH_TYPE = 'condition'
 ELASTICSEARCH_UNIQ_KEY = 'uid'  # Custom uniqe key
 
 

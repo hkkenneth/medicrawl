@@ -10,7 +10,8 @@ class MedlineplusSpider(scrapy.spiders.XMLFeedSpider):
     start_urls = (
         # should be https://medlineplus.gov/xml/mplus_topics_2016-10-15.xml
         # or other more updated links from https://medlineplus.gov/xml.html
-        'http://0.0.0.0:8114/1000.xml',
+        #'http://0.0.0.0:8114/1000.xml',
+        'http://0.0.0.0:8114/mplus_topics_2016-10-15.xml',
     )
     itertag = 'health-topic'
 

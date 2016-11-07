@@ -17,7 +17,8 @@ class NHSChoicesSpider(scrapy.Spider):
                               "preceding-sibling::node()"
                               ).xpath("descendant-or-self::*/text()").extract()
         item = NHSChoicesItem()
-        item['uid'] = '%s-%s' % ('nhs-choice', response.url.split('/')[4])
+        item['uid'] = [('%s-%s' % ('nhs-choice', response.url.split('/')[4])
+                        )]
         item['title'] = response.css("div.healthaz-header h1::text"
                                      ).extract_first()
         item['content'] = ' '.join(text)
